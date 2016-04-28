@@ -1,6 +1,7 @@
 function Run() {
+	Time.SetTimeValues();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	console.log("It works");
+	//console.log("It works");
 
 	if (Application.LoadedScene != null) {
 		Application.LoadedScene.Start();

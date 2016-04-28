@@ -16,7 +16,7 @@ function Scene1() {
 	// init game
 	this.Start = function(){
 		if(!this.started){
-
+			Time.SetTimeWhenSceneBegin();
 			var gameObject1 = new GameObject1();
 			var gameObject2 = new GameObject2();
 
@@ -24,7 +24,8 @@ function Scene1() {
 
 			// operation of Start
 			this.started = true;
-			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55')
+			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55');
+			Time.SetTimeWhenSceneLoaded();
 		}
 		this.Update();
 	};
@@ -34,8 +35,7 @@ function Scene1() {
 
 		if (!Application.GamePaused) {
 			// background
-			ctx.fillStyle = "red";
-			ctx.fillRect(0, 0, 1024, 728);
+			ctx.drawImage(Images["image3"], 0, 0, 1024, 728);
 			for (var i = 0; i < this.GameObjects.length; i++) {
 				this.GameObjects[i].Start();
 			}

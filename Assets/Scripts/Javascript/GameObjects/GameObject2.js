@@ -17,7 +17,7 @@ function GameObject2(){
 		if(!this.started){
 			// operation of Start
 			this.started = true;
-			console.log("%c System:GameObject" + this.name + "Started!", 'background:#222; color:#bada55')
+			console.log("%c System:GameObject" + this.name + "Started!", 'background:#222; color:#bada55');
 		}
 
 		this.Update();

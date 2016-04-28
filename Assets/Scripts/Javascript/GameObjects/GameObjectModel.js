@@ -17,7 +17,7 @@ function GameObject(){
 		if(!this.started){
 			// operation of Start
 			this.started = true;
-			console.log("%c System:GameObject" + this.name + "Started!", 'background:#222; color:#bada55')
+			console.log("%c System:GameObject" + this.name + "Started!", 'background:#222; color:#bada55');
 		}
 
 		this.Update();
@@ -25,8 +25,9 @@ function GameObject(){
 	};
 
 	this.Update = function(){
-
-		if( !Application.GamePaused && this.enabled ){
+		// check in Scene
+		//if( !Application.GamePaused && this.enabled ){
+		if( this.enabled ){
 
 		}
 		this.GUI();
@@ -35,4 +36,5 @@ function GameObject(){
 	this.GUI = function(){
 
 	};
+	this.Awake();
 }

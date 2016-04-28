@@ -17,13 +17,17 @@ function Loader() {
 	this.Start = function(){
 
 		if(!this.started){
+			// HERE? 
+			LoadImages();
+
 			// operation of Start
 			Scenes["Scene1"] = new Scene1();
 			Scenes["Scene2"] = new Scene2();
 			Application.LoadedScene = Scenes["Scene1"];
 
 			this.started = true;
-			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55')
+			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55');
+			Time.SetTimeWhenGameLoaded();
 		}
 		this.Update();
 	};

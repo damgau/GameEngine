@@ -17,11 +17,13 @@ function Scene2() {
 	this.Start = function(){
 
 		if(!this.started){
+			Time.SetTimeWhenSceneBegin();
 			var gameObject2 = new GameObject2();
 			this.GameObjects.push(gameObject2);
 			// operation of Start
 			this.started = true;
-			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55')
+			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55');
+			Time.SetTimeWhenSceneLoaded();
 		}
 		this.Update();
 	};

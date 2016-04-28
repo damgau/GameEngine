@@ -17,9 +17,12 @@ function Scene() {
 	this.Start = function(){
 
 		if(!this.started){
+			Time.SetTimeWhenSceneBegin();
+			//First Frame
 			// operation of Start
 			this.started = true;
-			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55')
+			console.log("%c System:Scene" + this.name + "Started!", 'background:#222; color:#bada55');
+			Time.SetTimeWhenSceneLoaded();
 		}
 		this.Update();
 	};
