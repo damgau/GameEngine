@@ -1,10 +1,41 @@
-Math.Random.Prototype.RangeInt = function(min, max, isInclusive){
-	
-}
-Math.Random.Prototype.RangeFloat = function(min, max, isInclusive){}
-Math.Random.Prototype.InArray = function(array){}
-Math.Random.Prototype.InCircle = function(circle){}
-Math.Random.Prototype.InScreen = function(screen){}
-Math.Random.Prototype.ColorRGB = function(){}
-Math.Random.Prototype.ColorRGBA = function(){}
-Math.Random.Prototype.ColorHex = function(){}
+Math.Random = {
+
+	RangeInt : function(min, max, isInclusive){
+		if (isInclusive) {
+			return (Math.random() * ( max - min + 1 )|0) + min;	
+		}
+		return (Math.random() * ( max - min )|0) + min;
+	},
+
+	RangeFloat : function(min, max, isInclusive){
+		
+	},
+
+	InArray : function(array){
+		return (Math.random() * array.length|0);
+	},
+
+	InCircle : function(circle){},
+
+	InDisk : function(circle){},
+
+	InScreen : function(screen){},
+
+	ColorRGB : function(){ 
+		return 'rgb(' + (Math.floor(Math.random() * 256)) + ',' 
+		+ (Math.floor(Math.random() * 256)) + ',' 
+		+ (Math.floor(Math.random() * 256)) + ')';
+	},
+
+	ColorRGBA : function(){
+		var opacity = Math.random() + 0.1;
+		return 'rgb(' + (Math.floor(Math.random() * 256)) + ',' 
+		+ (Math.floor(Math.random() * 256)) + ',' 
+		+ (Math.floor(Math.random() * 256)) + ','
+		+ opacity + ')';
+	},
+
+	ColorHex : function(){
+		return '#'+Math.floor(Math.random()*16777215).toString(16);
+	}
+};
