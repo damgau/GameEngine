@@ -8,15 +8,16 @@ Math.Random = {
 	},
 
 	RangeFloat : function(min, max, isInclusive){
-		
+
 	},
 
 	InArray : function(array){
 		return (Math.random() * array.length|0);
 	},
-
+	// point random in a circle
 	InCircle : function(circle){},
-
+	
+	// point random in a disk
 	InDisk : function(circle){},
 
 	InScreen : function(screen){},
@@ -37,5 +38,13 @@ Math.Random = {
 
 	ColorHex : function(){
 		return '#'+Math.floor(Math.random()*16777215).toString(16);
-	}
+	},
+
+	AngleDegrees : function(min, max){},
+
+	AngleRadian : function(min, max){},
+
+	IntPondere : function(min, max){},
+
+	FloatPondere : function(min, max){}
 };
