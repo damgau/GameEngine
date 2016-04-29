@@ -24,15 +24,15 @@ var Input = {
 	},
 
 	MouseDown : function( event ){
-		console.log(event);
+		console.log(Input.MousePosition);
 		Input.MouseClick = true;
-		Input.MouseClick = true;
+		Input.MouseLongClick = true;
 		Input.MouseReload = 1;
 	},
 
 	MouseUp : function( event ){
-		Input.MouseClick = true;
-		Input.MouseClick = true;
+		Input.MouseClick = false;
+		Input.MouseLongClick = false;
 		Input.MouseReload = 0;
 		Input.MouseDraging = false;
 		Input.DraggedElement = null;

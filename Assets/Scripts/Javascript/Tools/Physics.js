@@ -2,6 +2,7 @@ var Physics = {
 	PointBoxCollision : function(point, box){
 		if (point.x >= box.x && point.x <= box.x + box.w) {
 			if (point.y >= box.y && point.y <= box.y + box.h) {
+
 				return true;
 			}
 		}
@@ -108,21 +109,19 @@ var Physics = {
 		}
 	},
 	checkClick : function(){
-		for(var i = 0; i < Application.LoadedLevel.GameObjects.length; i++){
-			var go = Application.LoadedLevel.GameObjects[i];
-			if (go.Physics.Clickable) {
-				if (Physics.PointBoxCollision(Input.mousePosition,
+		for(var i = 0; i < Application.LoadedScene.GameObjects.length; i++){
+			var go = Application.LoadedScene.GameObjects[i];
+			if (go.Physics.clickable) {
+				if (Physics.PointBoxCollision(Input.MousePosition,
 					{
-						x : go.Physics.BoxCollider.position.x,
-						y : go.Physics.BoxCollider.position.y,
-						w : go.Physics.BoxCollider.size.w,
-						h : go.Physics.BoxCollider.size.h
+						x : go.Physics.boxCollider.position.x,
+						y : go.Physics.boxCollider.position.y,
+						w : go.Physics.boxCollider.size.x,
+						h : go.Physics.boxCollider.size.y
 					})) {
 					if (!Input.MouseClick) go.OnHovered();
 					else go.OnClicked();
-				} else {
-					go.OnUnHovered();
-				}
+				} else go.OnUnHovered();
 			}
 		}
 	}
