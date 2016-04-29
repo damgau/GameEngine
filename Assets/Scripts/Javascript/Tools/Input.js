@@ -24,6 +24,7 @@ var Input = {
 	},
 
 	MouseDown : function( event ){
+		console.log(event);
 		Input.MouseClick = true;
 		Input.MouseClick = true;
 		Input.MouseReload = 1;

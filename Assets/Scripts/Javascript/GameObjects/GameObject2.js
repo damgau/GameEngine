@@ -3,7 +3,26 @@ function GameObject2(){
 	this.started = false;
 	this.enabled = true;
 
-	
+	this.frameHovered = 0;
+
+	this.Transform = {
+		position : new Vector(),
+		size : new Vector()
+	};
+
+	this.Physics = {
+		enabled : true,
+
+		clickable : false,
+
+		dragAndDroppable : false,
+		colliderIsSameSizeAsTransform : false,
+
+		boxCollider : {
+			position : new Vector(),
+			size : new Vector()
+		}
+	};
 
 	this.Awake = function(){
 
@@ -37,4 +56,15 @@ function GameObject2(){
 	this.GUI = function(){
 
 	};
+	this.OnClicked = function(){
+		this.frameHovered++;
+	}
+	this.OnHovered = function(){
+		this.frameHovered++;
+	}
+	this.OnUnHovered = function(){
+		this.frameHovered = 0;
+	}
+
+	this.Awake();
 }

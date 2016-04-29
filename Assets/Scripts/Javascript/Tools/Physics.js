@@ -1,6 +1,5 @@
 var Physics = {
 	PointBoxCollision : function(point, box){
-
 		if (point.x >= box.x && point.x <= box.x + box.w) {
 			if (point.y >= box.y && point.y <= box.y + box.h) {
 				return true;
@@ -31,8 +30,9 @@ var Physics = {
 
 	},
 	CircleBoxCollision : function(circle, box){
-		var distX = Math.abs(Circle.x - box.x - box.w / 2);
-		var distY = Math.abs(Circle.y - box.y - box.h / 2);
+
+		var distX = Math.abs(circle.x - box.x - box.w / 2);
+		var distY = Math.abs(circle.y - box.y - box.h / 2);
 
 		if (distX > (box.w/2 + circle.radius)) return false;
 		if (distY > (box.h/2 + circle.radius)) return false;
@@ -73,7 +73,60 @@ var Physics = {
 		}
 		return false;
 
+	},
+	checkCollision : function(obj1, obj2){
+		var typeObj1 = "";
+		var typeObj2 = "";
+
+		var typeForSwitch = "";
+		var objForSwitch;
+
+		if (obj1.w != null) typeObj1 = "box";
+		else if (obj1.radius != null) typeObj1 = "circle";
+		else typeObj1 = "point";
+
+		if (obj2.w != null) typeObj2 = "box";
+		else if (obj2.radius != null) typeObj2 = "circle";
+		else typeObj2 = "point";
+
+		for (var i = 0; i < 2; i++) {
+			if (typeObj1 == "point" && typeObj2 == "box") return this.PointBoxCollision(obj1, obj2);
+			else if (typeObj1 == "box" && typeObj2 == "box") return this.BoxBoxCollision(obj1, obj2);
+			else if (typeObj1 == "point" && typeObj2 == "circle") return this.PointCircleCollision(obj1, obj2);
+			else if (typeObj1 == "circle" && typeObj2 == "circle") return this.CircleCircleCollision(obj1, obj2);
+			else if (typeObj1 == "circle" && typeObj2 == "box") return this.CircleBoxCollision(obj1, obj2);
+			else {
+
+				typeForSwitch = typeObj1;
+				typeObj1 = typeObj2;
+				typeObj2 = typeForSwitch;
+
+				objForSwitch = obj1;
+				obj1 = obj2;
+				obj2 = objForSwitch;
+			}
+		}
+	},
+	checkClick : function(){
+		for(var i = 0; i < Application.LoadedLevel.GameObjects.length; i++){
+			var go = Application.LoadedLevel.GameObjects[i];
+			if (go.Physics.Clickable) {
+				if (Physics.PointBoxCollision(Input.mousePosition,
+					{
+						x : go.Physics.BoxCollider.position.x,
+						y : go.Physics.BoxCollider.position.y,
+						w : go.Physics.BoxCollider.size.w,
+						h : go.Physics.BoxCollider.size.h
+					})) {
+					if (!Input.MouseClick) go.OnHovered();
+					else go.OnClicked();
+				} else {
+					go.OnUnHovered();
+				}
+			}
+		}
 	}
+
 };
 function Box(x, y, width, height){
 	this.x = x;

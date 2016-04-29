@@ -3,6 +3,27 @@ function GameObject(){
 	this.started = false;
 	this.enabled = true;
 
+	this.frameHovered = 0;
+
+	this.Transform = {
+		position : new Vector(),
+		size : new Vector()
+	};
+
+	this.Physics = {
+		enabled : true,
+
+		clickable : false,
+
+		dragAndDroppable : false,
+		colliderIsSameSizeAsTransform : false,
+
+		boxCollider : {
+			position : new Vector(),
+			size : new Vector()
+		}
+	};
+
 	
 
 	this.Awake = function(){
@@ -18,6 +39,8 @@ function GameObject(){
 			// operation of Start
 			this.started = true;
 			console.log("%c System:GameObject" + this.name + "Started!", 'background:#222; color:#bada55');
+
+			//colliderIsSameSizeAsTransform
 		}
 
 		this.Update();
@@ -36,5 +59,15 @@ function GameObject(){
 	this.GUI = function(){
 
 	};
+	this.OnClicked = function(){
+		this.frameHovered++;
+	}
+	this.OnHovered = function(){
+		this.frameHovered++;
+	}
+	this.OnUnHovered = function(){
+		this.frameHovered = 0;
+	}
+
 	this.Awake();
 }
