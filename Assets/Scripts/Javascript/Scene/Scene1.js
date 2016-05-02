@@ -19,8 +19,10 @@ function Scene1() {
 			Time.SetTimeWhenSceneBegin();
 			var gameObject1 = new GameObject1();
 			var gameObject2 = new GameObject2();
+			var gameObjectHero = new GameObjectHero();
 
-			this.GameObjects.push(gameObject1, gameObject2);		
+			this.GameObjects.push(gameObject1, gameObject2, gameObjectHero);		
+			//this.GameObjects.push(gameObject2);		
 
 			// operation of Start
 			this.started = true;
@@ -46,6 +48,7 @@ function Scene1() {
 	this.GUI = function(){
 		if(!Application.GamePaused){
 			// show UI
+			Debug.showStats();
 		} else {
 			// show pause menu
 		}

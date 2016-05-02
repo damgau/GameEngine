@@ -17,7 +17,8 @@ function Loader() {
 	this.Start = function(){
 
 		if(!this.started){
-			// HERE? 
+			Time.SetTimeWhenGameBegin();
+			// HERE? ok
 			LoadImages();
 
 			// operation of Start

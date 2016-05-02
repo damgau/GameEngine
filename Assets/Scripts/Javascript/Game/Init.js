@@ -27,7 +27,6 @@ document.getElementById('change').addEventListener('click',function(){
 		Application.LoadedScene = Scenes["Scene1"];
 	}
 })
-Time.SetTimeWhenGameBegin();
 
 Scenes["Loader"] = new Loader();
 Application.LoadedScene = Scenes["Loader"];

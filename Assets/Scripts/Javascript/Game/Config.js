@@ -6,7 +6,8 @@ var Scenes = {};
 var Application = {
 
 	LoadedScene : null,
-	GamePaused : false
+	GamePaused : false,
+	isDebug : true
 };
 
 var Gravity = new Vector();
@@ -16,7 +17,9 @@ Gravity.y = -2;
 var ImagesPath = [
 	{ name : "image1", path : "image1.png"},
 	{ name : "image2", path : "image2.png"},
-	{ name : "image3", path : "image3.png"}
+	{ name : "image3", path : "image3.png"},
+	{ name : "bowser_spritesheet", path : "bowser_spritesheet.png"},
+	{ name : "Hero", path : "hero.png"}
 ];
 var Images = {};
 
