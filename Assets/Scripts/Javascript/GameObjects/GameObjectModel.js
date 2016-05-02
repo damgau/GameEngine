@@ -14,7 +14,7 @@ function GameObject(){
 		pivot : new Vector()
 	};
 	this.Renderer = {
-		that = this.Transform,
+		that : this.Transform,
 		isVisible : true,
 		isSpriteSheet : true,
 		material : {

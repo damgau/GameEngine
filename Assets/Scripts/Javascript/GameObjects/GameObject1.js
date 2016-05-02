@@ -8,11 +8,11 @@ function GameObject1(){
 	this.frameHovered = 0;
 	
 	this.Transform = {
-		position : new Vector(),
-		size : new Vector(),
-		scale : new Vector(),
+		position : new Vector(250, 250),
+		size : new Vector(400, 400),
+		scale : new Vector(.5, .5),
 		//Between 0 and 1
-		pivot : new Vector()
+		pivot : new Vector(.5, .5)
 	};
 
 	this.Renderer = {
@@ -25,8 +25,8 @@ function GameObject1(){
 
 			source : "",
 
-			sizeFrame : new Vector(),
-			currentFrame : new Vector()
+			sizeFrame : new Vector(64, 64),
+			currentFrame : new Vector(0, 0)
 		},
 		animation : {
 			animated : true,
@@ -52,7 +52,7 @@ function GameObject1(){
 					this.animation.currentIndex = 0;
 				}
 				this.material.currentFrame = this.animation.current[this.animation.currentIndex];
-				//console.log(this.material.currentFrame);
+				console.log(this.material.currentFrame);
 
 				var scaledSizeX = this.that.size.x * this.that.scale.x;
 				var scaledSizeY = this.that.size.y * this.that.scale.y;
@@ -66,18 +66,16 @@ function GameObject1(){
 					this.that.position.x - this.that.pivot.x * scaledSizeX, 
 					this.that.position.y - this.that.pivot.y * scaledSizeY, 
 					scaledSizeX,
-					scaledSizeY
-					);	
+					scaledSizeY);	
 			} else {
-				var scaledSizeX = this.that.size.x*this.that.scale.x;
-				var scaledSizeY = this.that.size.y*this.that.scale.y;
+				var scaledSizeX = this.that.size.x * this.that.scale.x;
+				var scaledSizeY = this.that.size.y * this.that.scale.y;
 				
 				ctx.drawImage(this.material.source, 
 					this.that.position.x - this.that.pivot.x * scaledSizeX, 
-				this.that.position.y - this.that.pivot.y * scaledSizeY, 
-				scaledSizeX,
-				scaledSizeY
-				);
+					this.that.position.y - this.that.pivot.y * scaledSizeY, 
+					scaledSizeX,
+					scaledSizeY);
 			}
 		}
 	};
@@ -87,14 +85,14 @@ function GameObject1(){
 		clickable : true,
 
 		dragAndDroppable : true,
-		colliderIsSameSizeAsTransform : true,
+		colliderIsSameSizeAsTransform : false,
 
 		boxCollider : {
 			position : new Vector(),
 			size : new Vector()
 		}
 	};
-	
+}
 
 	this.Awake = function(){
 
@@ -108,41 +106,27 @@ function GameObject1(){
 		if(!this.started){
 			// operation of Start
 			this.started = true;
-			this.Transform.position.x = 250;
-			this.Transform.position.y = 250;
-			this.Transform.size.x = 400;
-			this.Transform.size.y = 400;
-			this.Transform.scale.x = .5;
-			this.Transform.scale.y = .5;
-			this.Transform.pivot.x = .5;
-			this.Transform.pivot.y = .5;
-			this.Renderer.material.source = Images["bowser_spritesheet"];
+			var img = Images["bowser_spritesheet"];
+			this.Renderer.material.source = img;
 
 			//TEST ANIMATION ______
 
-			this.Renderer.material.currentFrame = new Vector();
-			this.Renderer.material.sizeFrame = new Vector();
-			this.Renderer.material.sizeFrame.x = 64;
-			this.Renderer.material.sizeFrame.y = 64;
+			//this.Renderer.material.currentFrame = new Vector(0, 0);
+			//this.Renderer.material.sizeFrame = new Vector();
+			
 
 			if (this.Renderer.animation.animated) {
-
 				
-				var columns = 4;
-				var lines = 4;
-				var sizeAnimation = 64;
-				for (var line = 0; line < lines; line++) {
-					var tabByAnim = [];
-					for (var column = 0; column < columns; column++) {
-						tabByAnim.push({
-							srcX : this.Renderer.material.sizeFrame.x * column,
-							srcY : this.Renderer.material.sizeFrame.y * line
-						});
+				for (var i = 0; i < img.height; i+= this.Renderer.material.sizeFrame.y) {
+					var array = [];
+					for (var j = 0; j < img.width; j+= this.Renderer.material.sizeFrame.x) {
+						array.push(new Vector(j,i));
 					}
-					this.Renderer.animation.animations.push(tabByAnim);
-					this.Renderer.animation.current = this.Renderer.animation.animations[0];
+					this.Renderer.animation.animations.push(array);
 				}
-			}
+				this.Renderer.animation.current = this.Renderer.animation.animations[0];
+				}
+			
 
 			if(this.Physics.colliderIsSameSizeAsTransform){
 				

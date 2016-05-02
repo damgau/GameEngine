@@ -17,12 +17,11 @@ function Scene1() {
 	this.Start = function(){
 		if(!this.started){
 			Time.SetTimeWhenSceneBegin();
-			var gameObject1 = new GameObject1();
+			//var gameObject1 = new GameObject1();
 			var gameObject2 = new GameObject2();
 			var gameObjectHero = new GameObjectHero();
-
-			this.GameObjects.push(gameObject1, gameObject2, gameObjectHero);		
-			//this.GameObjects.push(gameObject2);		
+			//this.GameObjects.push(gameObject1);
+			this.GameObjects.push(gameObject2, gameObjectHero);
 
 			// operation of Start
 			this.started = true;

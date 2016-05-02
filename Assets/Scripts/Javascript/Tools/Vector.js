@@ -1,7 +1,7 @@
-function Vector(){
+function Vector(x, y){
 	// x and y = position final (origin = x:0 and y:0)
-	this.x = 0;
-	this.y = 0;
+	this.x = x;
+	this.y = y;
 
 	this.add = function(vector){
 		this.x += vector.x;
