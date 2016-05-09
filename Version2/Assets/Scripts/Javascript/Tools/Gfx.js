@@ -77,26 +77,16 @@ var Gfx = {
 		Flash : function(affectedZone, power, color) {
 			// Flash this screen
 			var current = 0;
+			var alphaAtStart = 0;
 			//									This tween and boucle are useless
 			//while (current < power){
 				//Tween.Approach(power, current, Time.DeltaTime);
 				ctx.fillStyle = color;
+				//Tween.Linear(t, b, c, d)
+				Tween.Linear(0, alphaAtStart, power, 1);
 				ctx.fillRect(affectedZone.x, affectedZone.y, affectedZone.w, affectedZone.h);
 			//}	
-			ctx.clearRect(0,0,canvas.width,canvas.height);
-		},
-		FlashV2 : function(affectedZone, power ,color) {
-			var pixels = ctx.getImageData(affectedZone.x, affectedZone.y, affectedZone.w, affectedZone.h);
-			var d = pixels.data;
-			var dTmp = pixels.data;
-
-			for (var i = 0; i < d.length; i+= 4) {
-				d[i] = 255;
-				d[i + 1] = 255;
-				d[i + 2] = 255;
-				d[i + 3] = power;
-			}
-
+			//ctx.clearRect(0,0,canvas.width,canvas.height);
 		}
 	}
 }
