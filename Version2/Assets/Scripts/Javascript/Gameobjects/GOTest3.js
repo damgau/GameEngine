@@ -133,15 +133,15 @@
 *	Add NameOfYourGameObject.Start() in your scene.
 */
 
-function GameObject() {
-	this.name = "Model";
+function GOTest3() {
+	this.name = "GOTest3";
 	this.enabled = true;
 	this.started = false;
 	this.rendered = true;
 	
 	this.Transform = {};
-	this.Transform.position = new Vector();
-	this.Transform.size = new Vector();
+	this.Transform.position = new Vector(250, 400);
+	this.Transform.size = new Vector(400, 100);
 	this.Transform.scale = new Vector(1,1);
 	this.Transform.pivot = new Vector(.5,.5);
 	this.Transform.angle = 0;
@@ -193,7 +193,7 @@ function GameObject() {
 					
 					this.AnimationCount += Time.DeltaTime;
 					
-				}else {
+				} else {
 					this.AnimationCount = 0;
 					this.Animation.currentIndex = 0;
 				}
@@ -241,7 +241,8 @@ function GameObject() {
 	};
 	this.Update = function() {
 		if ( this.enabled ) {
-
+			ctx.fillStyle = "red";
+			ctx.fillRect(this.Transform.position.x, this.Transform.position.y, this.Transform.size.x, this.Transform.size.y);
 		}
 		this.GUI();	
 	};

@@ -59,9 +59,15 @@ function SceneTest() {
 			var goTest = new GOTest();
 			this.GameObjects.push(goTest);
 			*/
+			/*		Test : Particules
 			var particuleSystem = new ParticuleSystem();
 			this.GameObjects.push(particuleSystem);
+			*/
+			var go2 = new GOTest2();
+			var go3 = new GOTest3();
+			var go4 = new GOTest4();
 
+			this.GameObjects.push(go3, go4, go2);
 			this.started = true;
 			console.log('%c System:Scene ' + this.name + " Started !", 'background:#222; color:#bada55');
 			Time.SetTimeWhenSceneLoaded();
@@ -70,11 +76,40 @@ function SceneTest() {
 	}
 	this.Update = function() {
 		if (!Application.GamePaused) {
-			ctx.fillStyle = "blue";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
 			for (var i = 0; i < this.GameObjects.length; i++) {
 				this.GameObjects[i].Start();
 			}
+
+			/*		Test : Particules
+			ctx.fillStyle = "blue";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			*/
+			/* 		Test : Gfx
+			ctx.fillStyle = "blue";
+			ctx.fillRect(20, 20, canvas.width - 20, canvas.height - 20);
+
+			ctx.fillStyle = "red";
+			ctx.fillRect(500, 500, 400, 100);
+
+			ctx.fillStyle = "green";
+			ctx.fillRect(500, 30, 500, 100);
+			*/
+			/*		Test : Gfx
+			Gfx.Filters.Sepia({
+							x : 0,
+							y : 0,
+							w : canvas.width,
+							h : canvas.height
+						});
+			Gfx.Filters.Mask({
+							x : 0,
+							y : 0,
+							w : canvas.width,
+							h : canvas.height
+						}, Images["mask2"]);
+			*/
+			
 		}
 		this.GUI();
 	}

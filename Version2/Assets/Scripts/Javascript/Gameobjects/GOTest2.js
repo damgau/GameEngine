@@ -133,15 +133,18 @@
 *	Add NameOfYourGameObject.Start() in your scene.
 */
 
-function GameObject() {
-	this.name = "Model";
+function GOTest2() {
+	this.name = "GOTest2";
 	this.enabled = true;
 	this.started = false;
 	this.rendered = true;
+	this.walkSpeed = 5;
+	this.goalSpeed = new Vector(0, 0);
+	this.currentSpeed = new Vector(0, 0);
 	
 	this.Transform = {};
-	this.Transform.position = new Vector();
-	this.Transform.size = new Vector();
+	this.Transform.position = new Vector(200, 350);
+	this.Transform.size = new Vector(30, 70);
 	this.Transform.scale = new Vector(1,1);
 	this.Transform.pivot = new Vector(.5,.5);
 	this.Transform.angle = 0;
@@ -241,8 +244,40 @@ function GameObject() {
 	};
 	this.Update = function() {
 		if ( this.enabled ) {
-
+			// Left
+			if (Input.KeysDown[37]) {
+				//this.Transform.position.x-= this.walkSpeed;
+				this.goalSpeed.x = - this.walkSpeed;
+			}
+			// Top
+			else if (Input.KeysDown[38]) {
+				//this.Transform.position.y-= this.walkSpeed;
+				this.goalSpeed.y = - this.walkSpeed;
+			}
+			// Right
+			else if (Input.KeysDown[39]) {
+				//this.Transform.position.x+= this.walkSpeed;
+				this.goalSpeed.x = this.walkSpeed;
+			}
+			// Both
+			else if (Input.KeysDown[40]) {
+				//this.Transform.position.y+= this.walkSpeed;
+				this.goalSpeed.y = this.walkSpeed;
+			} else this.goalSpeed.y = this.goalSpeed.x = 0;
 		}
+		console.log(this.goalSpeed.x);
+		if (this.goalSpeed.x == 5 || this.goalSpeed.y == 5) {
+			Gfx.Filters.Flash(new Box(0, 0, canvas.width, canvas.height), .5, "white");
+		}
+
+		this.currentSpeed.x = Tween.Approach(this.goalSpeed.x, this.currentSpeed.x, Time.DeltaTime);
+		this.Transform.position.x += this.currentSpeed.x;
+
+		this.currentSpeed.y = Tween.Approach(this.goalSpeed.y, this.currentSpeed.y, Time.DeltaTime);
+		this.Transform.position.y += this.currentSpeed.y;
+
+		ctx.fillStyle = "blue";
+		ctx.fillRect(this.Transform.position.x, this.Transform.position.y, this.Transform.size.x, this.Transform.size.y);
 		this.GUI();	
 	};
 	this.GUI = function() {

@@ -237,7 +237,7 @@ function ParticuleSystem() {
 		if (!this.started) {
 			// operation start
 			this.emitters.push(new Emitter(this.Transform.position, new Vector(2,2), 10, 10, 4000));
-			this.fields.push(new Field(new Vector(canvas.width/2 + 70, canvas.height/2 + 70),10));
+			this.fields.push(new Field(new Vector(canvas.width/2 + 70, canvas.height/2 + 70),10),new Field(new Vector(canvas.width/2 + 70, canvas.height/2 - 70),10));
 
 			// if this.Transform.position = new Vector(canvas.width * .5,canvas.height * .5); 
 			//this.fields.push(new Field(new Vector(canvas.width/2 + 70, canvas.height/2 + 70),10));
