@@ -33,6 +33,8 @@ var Debug = {
 		}
 	},
 	showFPS : function() {
+		ctx.font = '13px Arial';
+		ctx.textBaseline = 'middle';
 		ctx.fillStyle = "rgba(122,122,122, 0.4)";
 		ctx.RoundedBox(4, 4, 120, 70, 20);
 	

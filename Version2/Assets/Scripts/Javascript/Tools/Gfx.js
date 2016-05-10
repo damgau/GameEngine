@@ -73,18 +73,30 @@ var Gfx = {
 			ctx.putImageData(pixels, affectedZone.x, affectedZone.y);
 
 		},
-
+		// this method don't function
 		Flash : function(affectedZone, power, color) {
 			// Flash this screen
-			var current = 0;
-			var alphaAtStart = 0;
+			var alpha = 0;
+			var currentAlpha = 0;
 			//									This tween and boucle are useless
 			//while (current < power){
 				//Tween.Approach(power, current, Time.DeltaTime);
-				ctx.fillStyle = color;
+				//ctx.fillStyle = color;
+				// t = current time
+				// b = start value
+				// c = change in value
+				// d = duration
 				//Tween.Linear(t, b, c, d)
-				Tween.Linear(0, alphaAtStart, power, 1);
-				ctx.fillRect(affectedZone.x, affectedZone.y, affectedZone.w, affectedZone.h);
+				while(currentAlpha < 1){
+
+					alpha = Tween.Approach(power, alpha, Time.DeltaTime);
+					//alpha = Tween.Linear(currentAlpha, alpha, Time.DeltaTime, 1);
+					console.log(alpha);
+					currentAlpha += alpha;
+					ctx.fillStyle = "rgba(255,165,0," + currentAlpha + ")";
+					console.log(currentAlpha);
+					ctx.fillRect(affectedZone.x, affectedZone.y, affectedZone.w, affectedZone.h);
+				}
 			//}	
 			//ctx.clearRect(0,0,canvas.width,canvas.height);
 		}

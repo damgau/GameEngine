@@ -246,7 +246,7 @@ function GOTest2() {
 		if ( this.enabled ) {
 			// Left
 			if (Input.KeysDown[37]) {
-				this.goalSpeed.x = - this.walkSpeed;
+				this.goalSpeed.x = - this.walkSpeed;				
 			}
 			// Top
 			else if (Input.KeysDown[38]) {
@@ -270,10 +270,10 @@ function GOTest2() {
 		ctx.fillStyle = "blue";
 		ctx.fillRect(this.Transform.position.x, this.Transform.position.y, this.Transform.size.x, this.Transform.size.y);
 		//		 Test : Flash
-		console.log(this.goalSpeed.x);
-		if (this.goalSpeed.x == 5 || this.goalSpeed.y == 5) {
-			Gfx.Filters.Flash(new Box(0, 0, canvas.width, canvas.height), .5, "white");
-		}
+		//console.log(this.goalSpeed.x);
+		//if (this.goalSpeed.x == 5 || this.goalSpeed.y == 5) {
+		//	Gfx.Filters.Flash(new Box(0, 0, canvas.width, canvas.height), .5, "white");
+		//}
 		this.GUI();	
 	};
 	this.GUI = function() {

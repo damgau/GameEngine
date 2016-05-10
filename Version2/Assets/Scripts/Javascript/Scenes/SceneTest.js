@@ -45,6 +45,9 @@ function SceneTest() {
 
 	this.started = false;
 
+	/*		Test : Dialogue
+	*/
+	this.dial = new Dialogue();
 	this.Awake = function() {
 		//console.clear();
 		console.log('%c System:Scene ' + this.name + " Created !", 'background:#222; color:#bada55');
@@ -63,11 +66,18 @@ function SceneTest() {
 			var particuleSystem = new ParticuleSystem();
 			this.GameObjects.push(particuleSystem);
 			*/
+			/*		Test : Tween
+			*/
 			var go2 = new GOTest2();
 			var go3 = new GOTest3();
 			var go4 = new GOTest4();
 
 			this.GameObjects.push(go3, go4, go2);
+
+			/*		Test : Dialogue
+			*/
+			this.dial.InitText("text : test, mais oui c'est clair.Pas fou l'ami, blabla", "Arial", 22, "black", new Box(100, 100, 100, 100), .001);
+			
 			this.started = true;
 			console.log('%c System:Scene ' + this.name + " Started !", 'background:#222; color:#bada55');
 			Time.SetTimeWhenSceneLoaded();
@@ -77,15 +87,12 @@ function SceneTest() {
 	this.Update = function() {
 		if (!Application.GamePaused) {
 
-			for (var i = 0; i < this.GameObjects.length; i++) {
-				this.GameObjects[i].Start();
-			}
-
-			/*		Test : Particules
+			/*	____ TESTS ____
+			//		Test : Particules
 			ctx.fillStyle = "blue";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			*/
-			/* 		Test : Gfx
+			
+			// 		Test : Gfx
 			ctx.fillStyle = "blue";
 			ctx.fillRect(20, 20, canvas.width - 20, canvas.height - 20);
 
@@ -94,8 +101,8 @@ function SceneTest() {
 
 			ctx.fillStyle = "green";
 			ctx.fillRect(500, 30, 500, 100);
-			*/
-			/*		Test : Gfx
+			
+			//		Test : Gfx
 			Gfx.Filters.Sepia({
 							x : 0,
 							y : 0,
@@ -108,7 +115,14 @@ function SceneTest() {
 							w : canvas.width,
 							h : canvas.height
 						}, Images["mask2"]);
-			*/
+			
+			//		Test : Dialogue
+			**/
+			this.dial.Write();
+
+			for (var i = 0; i < this.GameObjects.length; i++) {
+				this.GameObjects[i].Start();
+			}
 			
 		}
 		this.GUI();
