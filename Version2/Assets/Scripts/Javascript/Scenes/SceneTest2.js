@@ -45,9 +45,10 @@ function SceneTest2() {
 
 	this.started = false;
 
-	//		Test : PathFounding
-	this.pf = new PathFounding();
-	this.grid = new Grid();
+	//		Test : PathFinding
+	this.grid = new Grid(100, 800, 800);
+	this.map = new Map([],this.grid);
+	this.pf = new PathFinding(this.map,this.grid.nbColumn,this.grid.nbLine);
 
 	this.Awake = function() {
 		//console.clear();
@@ -60,28 +61,9 @@ function SceneTest2() {
 			// operation start
 			/*	____ TESTS ____
 			*/
-			//		Test : PathFounding
-			// Fill pf.tab
-			// x : i % nbColumn,
-			// y : (i - i % nbColumn ) / nbColumn
-			for (var i = 0; i < this.grid.nbColumn*this.grid.nbColumn ; i++) {
-				rand = Math.random();
-				if (rand > 0.25) {
-					var tmpTile = new Tile();
-					var x = i % this.grid.nbColumn;
-					var y = (i - x) / this.grid.nbColumn;
-					tmpTile.Init(x, y,this.grid.scale,true);
-					// TAB PATHFOUNDING
-					this.pf.tab[y * this.grid.nbColumn + x] = tmpTile;
-				} else {
-					var tmpTile = new Tile();
-					var x = i % this.grid.nbColumn;
-					var y = (i - x) / this.grid.nbColumn;
-					tmpTile.Init(x, y,this.grid.scale,false);
-					// TAB PATHFOUNDING
-					this.pf.tab[y * this.grid.nbColumn + x] = tmpTile;
-				}
-			}
+			//		Test : PathFinding
+			this.map.FillMap();
+
 			
 			this.started = true;
 			console.log('%c System:Scene ' + this.name + " Started !", 'background:#222; color:#bada55');
@@ -94,9 +76,9 @@ function SceneTest2() {
 
 			/*	____ TESTS ____
 			**/
-			//		Test : PathFounding
+			//		Test : PathFinding
 
-			this.grid.DrawGrid();
+			this.map.grid.DrawGrid();
 			// when click
 			if (Input.MouseClick) {
 				var x = (Input.MousePosition.x/this.grid.scale)|0;
@@ -104,12 +86,10 @@ function SceneTest2() {
 				console.log("x , y : " + x + "," + y);
 			}
 
-
-			for (var i = 0; i < this.pf.tab.length; i++) {
-				// isWalkable = false -> Obstacle
-				if (this.pf.tab[i] && this.pf.tab[i].isWalkable == false) {
+			for (var i = 0; i < this.map.map.length; i++) {
+				if (this.map.map[i] && this.map.map[i].isWalkable == false) {
 					
-					this.pf.tab[i].Draw();
+					this.map.map[i].Draw();
 				}
 			}
 			

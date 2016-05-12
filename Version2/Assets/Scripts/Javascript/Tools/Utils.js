@@ -2,7 +2,14 @@
 function DotProduct(v1n,v2n) {
 	return v1n.x * v2n.x + v1n.y * v2n.y;
 }
-
+function IndexFroomCoord(x, y, col){
+    return y * col + x;
+}
+function CoordFromIndex(i, col){
+    var x = i % col;
+    var y = (i - x) / col;
+    return new Vector(x, y);
+}
 function distPointToPoint(p1,p2) {
 	return Math.sqrt( (p1.x - p2.x)*(p1.x - p2.x)+(p1.y - p2.y)*(p1.y - p2.y) );
 }

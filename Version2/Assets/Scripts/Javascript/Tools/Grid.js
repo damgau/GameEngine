@@ -1,16 +1,29 @@
-function Grid () {
-	this.scale = 100;
-	this.w = 800;
-	//this.h = 800;
-	this.nbColumn = this.w/this.scale;
+function Map(map, grid) {
+	this.map = map;
+	this.grid = grid;
 
-	this.InitGrid = function (scale, w){
-		this.scale = scale;
-		this.w = w;
-		//this.h = h;
-
-		this.nbColumn = this.w/this.scale;
+	// .25 to have obstacle : exemple
+	this.FillMap = function(chanceObstacle){
+		var chanceObstacle = chanceObstacle || .25;
+		for (var i = 0; i < this.grid.nbColumn * this.grid.nbLine ; i++) {
+			rand = Math.random();
+			var tmpTile = new Tile();
+			if (rand > chanceObstacle) {
+				tmpTile.Init(CoordFromIndex(i, this.grid.nbColumn),this.grid.scale,true);
+			} else {
+				tmpTile.Init(CoordFromIndex(i, this.grid.nbColumn),this.grid.scale,false);
+			}
+			this.map[i] = tmpTile;
+		}
 	}
+}
+
+function Grid (scale, w, h) {
+	this.scale = scale;
+	this.w = w;
+	this.h = h;
+	this.nbColumn = this.w/this.scale;
+	this.nbLine = this.h / this.scale;
 	
 	this.DrawGrid = function() {
 		ctx.beginPath();
@@ -30,4 +43,20 @@ function Grid () {
 			}
 			ctx.closePath();
 	}	
+}
+function Tile(){
+		this.name = "tile"
+		this.v = new Vector();
+		this.scale;
+		this.isWalkable;
+
+		this.Init = function(v,scale,isWalkable) {
+			this.v = v;
+			this.scale = scale;
+			this.isWalkable = isWalkable;
+		};
+		this.Draw = function() {
+			ctx.fillStyle = "green";
+			ctx.fillRect(this.v.x*this.scale, this.v.y*this.scale, this.scale, this.scale);
+		};
 }
