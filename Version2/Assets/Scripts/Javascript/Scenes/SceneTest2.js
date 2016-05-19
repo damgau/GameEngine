@@ -41,15 +41,17 @@
 */
 function SceneTest2() {
 	this.name = "SceneTest2";
+
+	this.Groups =[];
 	this.GameObjects =[];
 
 	this.started = false;
-
+	/*
 	//		Test : PathFinding
 	this.grid = new Grid(100, 800, 800);
 	this.map = new Map([],this.grid);
 	this.pf = new PathFinding(this.map,this.grid.nbColumn,this.grid.nbLine);
-
+	*/
 	this.Awake = function() {
 		//console.clear();
 		console.log('%c System:Scene ' + this.name + " Created !", 'background:#222; color:#bada55');
@@ -60,10 +62,20 @@ function SceneTest2() {
 			Time.SetTimeWhenSceneBegin();
 			// operation start
 			/*	____ TESTS ____
-			*/
 			//		Test : PathFinding
 			this.map.FillMap();
-
+			*/
+			var groupTest = new GroupTest();
+			groupTest.Start();
+			this.Groups.push(groupTest);
+			//console.log(this.Groups.length)
+			for (var i = 0; i < this.Groups.length; i++) {
+					console.log("this.Groups.length")
+					console.log(this.Groups[i].tabGO)
+				for (var j = 0; j < this.Groups[i].tabGO.length; j++) {
+					this.GameObjects.push(this.Groups[i].tabGO[j]);
+				}
+			}
 			
 			this.started = true;
 			console.log('%c System:Scene ' + this.name + " Started !", 'background:#222; color:#bada55');
@@ -73,9 +85,7 @@ function SceneTest2() {
 	}
 	this.Update = function() {
 		if (!Application.GamePaused) {
-
 			/*	____ TESTS ____
-			**/
 			//		Test : PathFinding
 
 			this.map.grid.DrawGrid();
@@ -92,10 +102,12 @@ function SceneTest2() {
 					this.map.map[i].Draw();
 				}
 			}
+			**/
 			
-
+			//console.log(this.GameObjects.length)
 			for (var i = 0; i < this.GameObjects.length; i++) {
 				this.GameObjects[i].Start();
+
 			}
 			
 		}

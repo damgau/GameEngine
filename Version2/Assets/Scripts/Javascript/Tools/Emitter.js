@@ -24,7 +24,7 @@ Emitter.prototype.emitParticules = function() {
 			
 			/* *** Yolo! ***
 			*/
-			//var angle = (this.velocity.getAngle() + this.spread) * Math.random();
+			var angle = (this.velocity.getAngle() + this.spread) * Math.random();
 			var position = new Vector(this.position.x + 10 * Math.random(), this.position.y + 10 * Math.random());
 			var velocity = this.velocity.fromAngle(angle);
 			//velocity.x *= Math.random();

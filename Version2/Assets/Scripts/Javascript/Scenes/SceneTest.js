@@ -63,9 +63,6 @@ function SceneTest() {
 			var goTest = new GOTest();
 			this.GameObjects.push(goTest);
 			
-			//		Test : Particules
-			var particuleSystem = new ParticuleSystem();
-			this.GameObjects.push(particuleSystem);
 			
 			//		Test : Tween
 			var go2 = new GOTest2();
@@ -79,6 +76,9 @@ function SceneTest() {
 			this.dial.InitText("text : test, mais oui c'est clair.Pas fou l'ami, blabla", "Arial", 22, "black", new Box(100, 100, 100, 100), .001);
 			*/
 			//		Test : PathFounding
+			//		Test : Particules
+			var particuleSystem = new ParticuleSystem();
+			this.GameObjects.push(particuleSystem);
 			
 			this.started = true;
 			console.log('%c System:Scene ' + this.name + " Started !", 'background:#222; color:#bada55');
@@ -90,9 +90,6 @@ function SceneTest() {
 		if (!Application.GamePaused) {
 
 			/*	____ TESTS ____
-			//		Test : Particules
-			ctx.fillStyle = "blue";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			
 			// 		Test : Gfx
 			ctx.fillStyle = "blue";
@@ -121,7 +118,9 @@ function SceneTest() {
 			//		Test : Dialogue
 			this.dial.Write();
 			**/
-			
+			//		Test : Particules
+			ctx.fillStyle = "blue";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 			for (var i = 0; i < this.GameObjects.length; i++) {
 				this.GameObjects[i].Start();

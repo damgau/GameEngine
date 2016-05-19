@@ -41,6 +41,8 @@
 */
 function Scene() {
 	this.name = "Model";
+	//		TEST : Group
+	this.Groups =[];
 	this.GameObjects =[];
 
 	this.started = false;

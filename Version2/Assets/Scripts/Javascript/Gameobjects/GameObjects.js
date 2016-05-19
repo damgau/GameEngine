@@ -158,20 +158,20 @@ function GameObject() {
 	};
 
 	this.Renderer = {
-		isVisible: true,
-		isSpriteSheet: false,
-		that: this.Transform,
-		Material: {
-			Source: "",
-			SizeFrame: new Vector(),
-			CurrentFrame: new Vector(),
+		isVisible : true,
+		isSpriteSheet : false,
+		that : this.Transform,
+		Material : {
+			Source : "",
+			SizeFrame : new Vector(),
+			CurrentFrame : new Vector(),
 		},
 
-		Animation:{
-			animated: true,
-			animations: [],
-			current:[],
-			countdown:0
+		Animation : {
+			animated : true,
+			animations : [],
+			current : [],
+			countdown : 0
 		},
 		
 		Draw: function() {
@@ -237,13 +237,22 @@ function GameObject() {
 			this.started = true;
 			console.log('%c System:GameObject ' + this.name + " Started !", 'background:#222; color:#bada55');
 		}
-		this.Update();
+		this.PreUpdate();
+	};
+	this.PreUpdate = function() {
+		if ( this.enabled ) {
+			// code before the frame
+
+			this.Update();
+		}
 	};
 	this.Update = function() {
-		if ( this.enabled ) {
+		
+		this.PostUpdate();
+	};
+	this.PostUpdate = function() {
 
-		}
-		this.GUI();	
+		this.GUI();
 	};
 	this.GUI = function() {
 		

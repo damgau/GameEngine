@@ -141,7 +141,7 @@ function GOTest3() {
 	
 	this.Transform = {};
 	this.Transform.position = new Vector(250, 400);
-	this.Transform.size = new Vector(400, 100);
+	this.Transform.size = new Vector(100, 100);
 	this.Transform.scale = new Vector(1,1);
 	this.Transform.pivot = new Vector(.5,.5);
 	this.Transform.angle = 0;
@@ -233,7 +233,6 @@ function GOTest3() {
 	this.Start = function() {
 		if (!this.started) {
 			// operation start
-
 			this.started = true;
 			console.log('%c System:GameObject ' + this.name + " Started !", 'background:#222; color:#bada55');
 		}

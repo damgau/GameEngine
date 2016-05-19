@@ -52,10 +52,10 @@ function ImageLoaded(imageLoaded) {
 	console.log('%c System: ' + imageLoaded + "Images Loaded !", 'background:#222; color:#10ADED');
 	/*			Here? for wait the download of loader
 	*/
-	//Scenes["SceneTest"] = new SceneTest();
-	//Application.LoadedScene = Scenes["SceneTest"];
-	Scenes["SceneTest2"] = new SceneTest2();
-	Application.LoadedScene = Scenes["SceneTest2"];
+	Scenes["SceneTest"] = new SceneTest();
+	Application.LoadedScene = Scenes["SceneTest"];
+	//Scenes["SceneTest2"] = new SceneTest2();
+	//Application.LoadedScene = Scenes["SceneTest2"];
 }
 // can't set window
 //canvas.width = window.innerWidth;
