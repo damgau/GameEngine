@@ -227,7 +227,6 @@ function MusicNote(_position, _sound)
 							this.Transform.Size.y
 					);
 			}
-			console.log(this.sound);
 			this.started = true;
 			Print('System:GameObject ' + this.name + " Started !");
 		}
