@@ -26,7 +26,7 @@
  *
  *
  * */
-function MusicNote(position) 
+function MusicNote(_position, _sound) 
 {
 	this.name = "MusicNote";
 	this.enabled = true;
@@ -36,13 +36,15 @@ function MusicNote(position)
 
 	this.velocity = 5;
 
+	this.sound = _sound;
+
 	this.MouseOffset = new Vector();
 
 	this.Parent = null;
 	
 	this.Transform = {};
-	this.Transform.RelativePosition = position;
-	this.Transform.Position = position;
+	this.Transform.RelativePosition = _position;
+	this.Transform.Position = _position;
 	this.Transform.Size = new Vector(10,10);
 	this.Transform.RelativeScale = new Vector(1,1);
 	this.Transform.Scale = new Vector(1,1);
@@ -225,7 +227,7 @@ function MusicNote(position)
 							this.Transform.Size.y
 					);
 			}
-
+			console.log(this.sound);
 			this.started = true;
 			Print('System:GameObject ' + this.name + " Started !");
 		}

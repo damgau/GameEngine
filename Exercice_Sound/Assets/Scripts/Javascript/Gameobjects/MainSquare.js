@@ -317,8 +317,14 @@ function MainSquare()
 			if (Application.LoadedScene.GameObjects[i].name != this.name) {
 				if (Physics.CheckCollision(this.Physics.Collider, 
 											Application.LoadedScene.GameObjects[i].Physics.Collider)) {
+					Audios["Bend"].volume = .35;
+					Audios["Bend"].currentTime = 0;
+					Audios["Bend"].play();
+					
+					Application.LoadedScene.GameObjects[i].sound.volume = 1;
 					Application.LoadedScene.GameObjects.splice(i,1);
 					i--;
+					
 				}
 			}
 		}

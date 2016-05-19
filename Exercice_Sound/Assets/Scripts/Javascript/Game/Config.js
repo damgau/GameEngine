@@ -35,12 +35,15 @@ var ImagesPath =
 	// { name:"monImage",path: "background/image.png"},
 	
 ];
-var SoundsPath = 
+var Images = {};
+var audioLoaded = 0;
+var AudioPath = 
 [
 	// { name:"monSound",path: "background/sound.mp3"},
-	{ name:"Acoustic" path:"AudioShort/TechnoGame_Acoustic.mp3"},
-	{ name:"Bass" path:"AudioShort/TechnoGame_Bass.mp3"},
-	{ name:"Chorus" path:"AudioShort/TechnoGame_Chorus.mp3"},
-	{ name:"HighNotes" path:"AudioShort/TechnoGame_HighNotes.mp3"},
+	{ name:"Acoustic", path:"AudioShort/TechnoGame_Acoustic.mp3"},
+	{ name:"Bass", path:"AudioShort/TechnoGame_Bass.mp3"},
+	{ name:"Chorus", path:"AudioShort/TechnoGame_Chorus.mp3"},
+	{ name:"HighNotes", path:"AudioShort/TechnoGame_HighNotes.mp3"},
+	{ name:"Bend", path:"SFX/TechnoGame_Bend.mp3"}
 ];
-var Images = {};
+var Audios = {};
