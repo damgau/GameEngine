@@ -35,6 +35,8 @@ function MainChar()
 	this.fixedToCamera = true;
 
 	this.MouseOffset = new Vector();
+	// offset saved by the controller
+	this.offsetSaved = 0;
 
 	this.Parent = null;
 	
@@ -329,15 +331,19 @@ function MainChar()
 			// operation start
 			var url = 'http://10.10.7.53:8080';
 			this.socket = io.connect(url);
-			console.log(this.socket);
-			// Test : phone commands
-			//console.log(OtherInput.Alpha);
+			// Don't need to be in "Update" beacause --> addEventListener
+			//console.log(this.socket);
+			this.socket.on('saveOffset', function(data){
+				this.offsetSaved = data;
+			});
+
 			this.socket.on('moving', function (data)
 			{
+				//													 - ?! Test with offset and others players
 				OtherInput.Alpha = -data ;
 			});
 
-			if (this.Physics.colliderIsSameSizeAsTransform) 
+			if (this.Physics.colliderIsSameSizeAsTransform)
 			{
 				this.Physics.Collider = this.Transform;
 			}
@@ -412,7 +418,8 @@ function MainChar()
 			this.Transform.angle += 10;	
 		}
 		*/
-		this.Transform.angle = OtherInput.Alpha;
+		console.log(this.offsetSaved);
+		this.Transform.angle = OtherInput.Alpha - this.offsetSaved;
 
 		// CONDITION : looking ennemy (DotProduct |e| 1 & .8)
 		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
@@ -498,7 +505,7 @@ function MainChar()
 		var norGOPos = _go.Transform.Position.FromAngle(Math.DegreeToRadian(_go.Transform.angle)).Normalize();
 
 		var dotProd = Math.DotProduct(norCharPos, norGOPos);
-		// > .9 angle de vue pour tuer un ennemi
+		// > .95 angle de vue pour tuer un ennemi
 		if (dotProd > .95) return true;
 		else return false;
 	}

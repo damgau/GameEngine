@@ -20,13 +20,9 @@
 <script>
 	// Variables 
 	//-----------------------------------------------------------------------------------
-		//var	canvas = document.getElementById('paper'),
-		//	ctx = canvas.getContext('2d');
-
 		// unique ID
-		var id = Math.round(Date.now() * Math.random());
-
-		var isConnected = false;
+		//var id = Math.round(Date.now() * Math.random());
+		//var isConnected = false;
 		var clients = {};
 	//-----------------------------------------------------------------------------------
 	
@@ -34,13 +30,13 @@
 	//-----------------------------------------------------------------------------------
 		var url = 'http://10.10.7.53:8080';
 		var socket = io.connect(url);
-		var buttonInit = document.getElementById('init');
 		// alligner le personnage vers le haut et appuyer sur ce button ( il faut etre en face de la personne qui tient le "jeu" | save un offset qui va permettre de tourner correctement)
-		//buttonInit.addEventListener('click', function(){
-		//	socket.emit('offset')
-		//});
-		window.addEventListener('deviceorientation', function(e){
+		document.getElementById('init').addEventListener('click', function(e){
+			// 								HERE = NUL
+			socket.emit('offset', e.alpha);
+		});
 
+		window.addEventListener('deviceorientation', function(e){
 			document.getElementById('coord').innerHTML = e.alpha;
 			socket.emit('orientation', e.alpha);
 

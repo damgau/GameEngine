@@ -55,12 +55,19 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
 
 	console.log("socket connected");
+	// calcul : offset
+	socket.on('offset', function(data){
+		console.log("data " + data);
+		socket.broadcast.emit('saveOffset', data);
+	});
+
+	// give alpha to character
 	socket.on('orientation', function(data)
 	{
-		console.log(data);
 		socket.broadcast.emit('moving', data);
 	});
 });
+
 
 function getFile(localPath, res, mimeType) {
 	
