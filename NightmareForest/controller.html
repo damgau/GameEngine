@@ -18,39 +18,24 @@
 </html>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
-	// Variables 
-	//-----------------------------------------------------------------------------------
-		// unique ID
-		//var id = Math.round(Date.now() * Math.random());
-		//var isConnected = false;
-		var clients = {};
-	//-----------------------------------------------------------------------------------
-	
-	// Online 
-	//-----------------------------------------------------------------------------------
 		var url = 'http://10.10.7.53:8080';
 		var socket = io.connect(url);
+
+		var initedOffset = false;
+		var offset = 0;
+		var alpha = 0;
 		// alligner le personnage vers le haut et appuyer sur ce button ( il faut etre en face de la personne qui tient le "jeu" | save un offset qui va permettre de tourner correctement)
 		document.getElementById('init').addEventListener('click', function(e){
-			// 								HERE = NUL
-			socket.emit('offset', e.alpha);
+			offset = alpha;
+			initedOffset = true;
 		});
 
 		window.addEventListener('deviceorientation', function(e){
+			alpha = e.alpha;
 			document.getElementById('coord').innerHTML = e.alpha;
-			socket.emit('orientation', e.alpha);
-
+			socket.emit('orientation', {
+				'alpha' : offset - alpha,
+				'initedOffset' : initedOffset
+			});
 		});
-		setInterval(function() // 10 secondes sans bouger, tu degage
-		{
-
-			for(ident in clients)
-			{
-				if(Date.now() - clients[ident].updated > 10000)
-				{
-					delete clients[ident];
-				}
-			}
-
-		},10000);
 	</script>

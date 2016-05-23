@@ -49,26 +49,6 @@ var server = http.createServer( function(req, res)
 
 }).listen(port, serverUrl);
 
-
-var io = require('socket.io')(server);
-
-io.on('connection', function(socket){
-
-	console.log("socket connected");
-	// calcul : offset
-	socket.on('offset', function(data){
-		console.log("data " + data);
-		socket.broadcast.emit('saveOffset', data);
-	});
-
-	// give alpha to character
-	socket.on('orientation', function(data)
-	{
-		socket.broadcast.emit('moving', data);
-	});
-});
-
-
 function getFile(localPath, res, mimeType) {
 	
 	fs.readFile(localPath, function(err, contents) {
@@ -83,4 +63,18 @@ function getFile(localPath, res, mimeType) {
 		}
 	});
 }
+
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+
+	console.log("socket connected");
+	
+	socket.on('orientation', function(data)
+	{
+		//console.log(data);
+		socket.broadcast.emit('moving', data);
+	});
+});
+
 

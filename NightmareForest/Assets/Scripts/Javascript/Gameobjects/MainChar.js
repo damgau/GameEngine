@@ -332,15 +332,11 @@ function MainChar()
 			var url = 'http://10.10.7.53:8080';
 			this.socket = io.connect(url);
 			// Don't need to be in "Update" beacause --> addEventListener
-			//console.log(this.socket);
-			this.socket.on('saveOffset', function(data){
-				this.offsetSaved = data;
-			});
-
 			this.socket.on('moving', function (data)
 			{
 				//													 - ?! Test with offset and others players
-				OtherInput.Alpha = -data ;
+				this.offsetSaved = data.initedOffset;
+				OtherInput.Alpha = -data.alpha ;
 			});
 
 			if (this.Physics.colliderIsSameSizeAsTransform)
