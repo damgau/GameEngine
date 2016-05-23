@@ -412,7 +412,7 @@ function BasicEnnemy()
 
 		//this.Transform.angle= setAngle( Math.RadianToDegree( Math.atan2( ( canvas.height/2 ) - this.Transform.Position.y, 
 		//																( canvas.width/2 ) - this.Transform.Position.x ) ) |0 );
-		if( this.spawnZone.radius != 0 ) this.spawnZone.radius--;
+		if( this.spawnZone.radius != 0 ) this.spawnZone.radius -= .5;
 		var alpha = Math.DegreeToRadian( this.Transform.angle );
 		this.Transform.Position.x = this.spawnZone.x - this.spawnZone.radius * Math.cos( alpha ) |0;
 		this.Transform.Position.y = this.spawnZone.y - this.spawnZone.radius * Math.sin( alpha ) |0;

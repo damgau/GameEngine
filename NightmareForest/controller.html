@@ -1,0 +1,60 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Technobel GameEngine</title>
+	<meta name="charset" content="utf-8">
+	<link rel="icon" href="Assets/Graphics/Logos/favicon.ico" />
+</head>
+<body>
+	<h1> Controller </h1>
+	<button id="init"></button>
+	<center>
+		<div id="coord"></div>
+	</center>
+
+</body>
+</html>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+	// Variables 
+	//-----------------------------------------------------------------------------------
+		//var	canvas = document.getElementById('paper'),
+		//	ctx = canvas.getContext('2d');
+
+		// unique ID
+		var id = Math.round(Date.now() * Math.random());
+
+		var isConnected = false;
+		var clients = {};
+	//-----------------------------------------------------------------------------------
+	
+	// Online 
+	//-----------------------------------------------------------------------------------
+		var url = 'http://10.10.7.53:8080';
+		var socket = io.connect(url);
+		var buttonInit = document.getElementById('init');
+		// alligner le personnage vers le haut et appuyer sur ce button ( il faut etre en face de la personne qui tient le "jeu" | save un offset qui va permettre de tourner correctement)
+		//buttonInit.addEventListener('click', function(){
+		//	socket.emit('offset')
+		//});
+		window.addEventListener('deviceorientation', function(e){
+
+			document.getElementById('coord').innerHTML = e.alpha;
+			socket.emit('orientation', e.alpha);
+
+		});
+		setInterval(function() // 10 secondes sans bouger, tu degage
+		{
+
+			for(ident in clients)
+			{
+				if(Date.now() - clients[ident].updated > 10000)
+				{
+					delete clients[ident];
+				}
+			}
+
+		},10000);
+	</script>

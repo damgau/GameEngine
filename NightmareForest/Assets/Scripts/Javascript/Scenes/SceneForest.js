@@ -45,7 +45,7 @@ function SceneForest()
 			// operation start
 			Application.debugMode = true;
 			this.GameObjects.push(new MainChar());
-			for (var i = 0; i < 5; i++) {
+			for (var i = 0; i < 3; i++) {
 				this.GameObjects.push(new BasicEnnemy());
 				
 			}

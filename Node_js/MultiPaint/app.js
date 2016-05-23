@@ -13,9 +13,15 @@ var Req =
 
 	IOConnection: function(socket) 
 	{
+		console.log("socket connected");
 	    socket.on('mousemove', function (data) 
 	    {
 			socket.broadcast.emit('moving', data);
+		});
+		socket.on('orientation', function(data)
+		{
+			console.log(data.alpha);
+			//socket.broadcast.emit('moving', data);
 		});
 
     }

@@ -327,6 +327,15 @@ function MainChar()
 	{
 		if (!this.started) {
 			// operation start
+			var url = 'http://10.10.7.53:8080';
+			this.socket = io.connect(url);
+			console.log(this.socket);
+			// Test : phone commands
+			//console.log(OtherInput.Alpha);
+			this.socket.on('moving', function (data)
+			{
+				OtherInput.Alpha = -data ;
+			});
 
 			if (this.Physics.colliderIsSameSizeAsTransform) 
 			{
@@ -393,6 +402,7 @@ function MainChar()
 	 * */
 	this.Update = function() 
 	{
+		/*
 		// Left
 		if (Input.KeysDown[37]) {
 			this.Transform.angle -= 10;
@@ -401,12 +411,14 @@ function MainChar()
 		if (Input.KeysDown[39]) {
 			this.Transform.angle += 10;	
 		}
+		*/
+		this.Transform.angle = OtherInput.Alpha;
 
 		// CONDITION : looking ennemy (DotProduct |e| 1 & .8)
 		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
 			if (this.onSight(Application.LoadedScene.GameObjects[i])) {
 				Application.LoadedScene.GameObjects.splice(i,1);
-				i--; // 										Enlever un index car splice?
+				i--;
 			}
 		}
 

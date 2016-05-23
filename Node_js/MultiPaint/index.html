@@ -1,6 +1,12 @@
 <html><head><meta charset="utf-8" /><title>multipaint</title></head>
 <body>
+	<div id="coord"></div>
 	<canvas id="paper" width="1900" height="1000"> c'est cassé !</canvas>
+	<style>
+		#paper {
+			display: none;
+		}
+	</style>
 	<script src="/socket.io/socket.io.js"></script>
 
 	<script>
@@ -28,7 +34,7 @@
 			// Is the user drawing?
 			if(data.drawing && clients[data.id])
 			{
-				drawLine(clients[data.id].x, clients[data.id].y, data.x, data.y, data.color);
+				drawLine(clients[data.id].x, clients[data.id].y, data.x, data.y, data.color, data.alpha);
 			}
 
 			// Saving the current client state
@@ -64,7 +70,8 @@
 					'y': e.pageY,
 					'drawing': drawing,
 					'id': id,
-					'color' : color
+					'color' : color,
+					'alpha' : 1
 				});
 				lastEmit = Date.now();
 			}
@@ -72,7 +79,31 @@
 			if(drawing)
 			{
 
-				drawLine(prev.x, prev.y, e.pageX, e.pageY, color);
+				drawLine(prev.x, prev.y, e.pageX, e.pageY, color, 1);
+
+				prev.x = e.pageX;
+				prev.y = e.pageY;
+			}
+		});
+
+		window.addEventListener('deviceorientation',function(e)
+		{	
+			document.getElementById('coord').innerHTML = e.alpha;
+			socket.emit('orientation',
+			{
+				// 'x': e.pageX,
+				// 'y': e.pageY,
+				// 'drawing': drawing,
+				// 'id': id,
+				// 'color' : color,
+				'alpha' : e.alpha
+			});
+			
+
+			if(drawing)
+			{
+
+				drawLine(prev.x, prev.y, e.pageX, e.pageY, color, e.alpha);
 
 				prev.x = e.pageX;
 				prev.y = e.pageY;
@@ -92,10 +123,10 @@
 
 		},10000);
 
-		function drawLine(fromx, fromy, tox, toy, color)
+		function drawLine(fromx, fromy, tox, toy, color, alpha)
 		{
 			ctx.beginPath();
-			ctx.strokeStyle = color;
+			ctx.strokeStyle = "rgba(255,255,255" + alpha + ")";
 			ctx.moveTo(fromx, fromy);
 			ctx.lineTo(tox, toy);
 			ctx.lineWidth = 15;
