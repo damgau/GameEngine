@@ -1,0 +1,123 @@
+<html><head><meta charset="utf-8" /><title>multipaint</title></head>
+<body>
+	<canvas id="paper" width="1900" height="1000"> c'est cassé !</canvas>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<script>
+	// Variables 
+	//-----------------------------------------------------------------------------------
+		var	canvas = document.getElementById('paper'),
+			ctx = canvas.getContext('2d');
+
+		// unique ID
+		var id = Math.round(Date.now() * Math.random());
+
+		var drawing = false;
+		var clients = {};
+		var prev = {};
+		var color = "#000000"
+	//-----------------------------------------------------------------------------------
+	
+	// Online 
+	//-----------------------------------------------------------------------------------
+		var url = 'http://10.10.7.53:8080';
+		var socket = io.connect(url);
+
+		socket.on('moving', function (data) 
+		{
+			// Is the user drawing?
+			if(data.drawing && clients[data.id])
+			{
+				drawLine(clients[data.id].x, clients[data.id].y, data.x, data.y, data.color);
+			}
+
+			// Saving the current client state
+			clients[data.id] = data;
+			clients[data.id].updated = Date.now();
+		});
+		document.addEventListener('keydown', function(e){
+
+			color = colorHEX();
+		})
+		document.addEventListener('mousedown',function(e)
+		{
+			e.preventDefault();
+			drawing = true;
+			prev.x = e.pageX;
+			prev.y = e.pageY;
+		});
+
+		document.addEventListener('mouseup',function()
+		{
+			drawing = false;
+		});
+
+		var lastEmit = Date.now();
+
+		document.addEventListener('mousemove',function(e)
+		{
+			if(Date.now() - lastEmit > 30)
+			{
+				socket.emit('mousemove',
+				{
+					'x': e.pageX,
+					'y': e.pageY,
+					'drawing': drawing,
+					'id': id,
+					'color' : color
+				});
+				lastEmit = Date.now();
+			}
+
+			if(drawing)
+			{
+
+				drawLine(prev.x, prev.y, e.pageX, e.pageY, color);
+
+				prev.x = e.pageX;
+				prev.y = e.pageY;
+			}
+		});
+
+		setInterval(function() // 10 secondes sans bouger, tu degage
+		{
+
+			for(ident in clients)
+			{
+				if(Date.now() - clients[ident].updated > 10000)
+				{
+					delete clients[ident];
+				}
+			}
+
+		},10000);
+
+		function drawLine(fromx, fromy, tox, toy, color)
+		{
+			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.moveTo(fromx, fromy);
+			ctx.lineTo(tox, toy);
+			ctx.lineWidth = 15;
+			ctx.stroke();
+			ctx.closePath();
+		}
+		function colorHEX() 
+		{
+			var letters = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F'];
+		    var color = '#';
+		    for (var i = 0; i < 6; i++ )
+		    {
+		        color += letters[rangeInt(0,letters.length,false)];
+		    }
+		    return color;
+		}
+		function rangeInt(_min, _max, _isInclusive)
+		{
+			if(typeof _min != 'number') PrintErr("Parameter minimum in RangeInt");
+		    if(typeof _max != 'number') PrintErr("Parameter maximum in RangeInt");
+		    if(typeof _isInclusive != 'boolean') PrintErr("Parameter isInclusive in RangeInt");
+			_isInclusive ? _max++ : _min++;
+			return Math.floor(Math.random() * (_max - _min) + _min); 
+		};
+	</script></body></html>
