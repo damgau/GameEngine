@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1> Controller </h1>
-	<button id="init"></button>
+	<button id="init"> Equilibre it </button>
 	<center>
 		<div id="coord"></div>
 	</center>
@@ -24,10 +24,19 @@
 		var initedOffset = false;
 		var offset = 0;
 		var alpha = 0;
+
+		//reset properties if game over
+		socket.on('reset', function(data){
+			// data = true (isGameOver)
+			console.log("here");
+			initedOffset = false;
+		});
+
+
 		// alligner le personnage vers le haut et appuyer sur ce button ( il faut etre en face de la personne qui tient le "jeu" | save un offset qui va permettre de tourner correctement)
 		document.getElementById('init').addEventListener('click', function(e){
-			offset = alpha;
 			initedOffset = true;
+			offset = alpha;
 		});
 
 		window.addEventListener('deviceorientation', function(e){

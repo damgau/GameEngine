@@ -36,6 +36,11 @@ function MainChar()
 
 	this.MouseOffset = new Vector();
 
+	// "equilibre" player
+	this.offsetSaved = false;
+
+	this.isGameOver = false;
+
 	this.Parent = null;
 	
 	this.Transform = {};
@@ -328,8 +333,10 @@ function MainChar()
 			// Don't need to be in "Update" beacause --> addEventListener
 			this.socket.on('moving', function (data)
 			{
-				//													 - ?! Test with offset and others players
-				this.offsetSaved = data.initedOffset;
+				if (Application.LoadedScene == Scenes["Forest"]) {
+				//													  Test with offset and others players
+					Application.LoadedScene.Player.offsetSaved = data.initedOffset;
+				}
 				OtherInput.Alpha = -data.alpha ;
 			});
 
@@ -397,6 +404,7 @@ function MainChar()
 	 * */
 	this.Update = function() 
 	{
+		/*
 		// Left
 		if (Input.KeysDown[37]) {
 			this.Transform.angle -= 5;
@@ -405,9 +413,8 @@ function MainChar()
 		if (Input.KeysDown[39]) {
 			this.Transform.angle += 5;	
 		}
-		/*
-		this.Transform.angle = OtherInput.Alpha;
 		*/
+		this.Transform.angle = OtherInput.Alpha;
 
 		// CONDITION : looking ennemy (DotProduct |e| 1 & .95)
 		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
@@ -424,9 +431,13 @@ function MainChar()
 				&& Physics.CheckCollision(this.Physics.Collider, 
 										Application.LoadedScene.GameObjects[i].Physics.Collider)
 				) {
+				this.isGameOver = true;
+				this.socket.emit('GameOver', this.isGameOver);
 				Application.LoadedScene = Scenes["GameOver"];
 			}
-		}		
+		}
+
+		//console.log(Application.LoadedScene.Player.offsetSaved);	
 
 		this.Renderer.Draw();
 		this.PostUpdate();	

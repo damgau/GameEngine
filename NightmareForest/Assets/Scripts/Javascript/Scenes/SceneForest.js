@@ -22,7 +22,7 @@ function SceneForest()
 	this.AlphaMask = null;
 	this.started = false;
 
-	//this.Player
+	this.Player;
 	this.maxEnnemy = 3;
 
 	// SCORE
@@ -50,11 +50,9 @@ function SceneForest()
 			Time.SetTimeWhenSceneBegin();
 			// operation start
 			Application.debugMode = true;
-			this.GameObjects.push(new MainChar());
-			for (var i = 0; i < 3; i++) {
-				this.GameObjects.push(new BasicEnnemy());
-			}
-			// this.GameObjects.push(new BasicEnnemy());
+			this.Player = new MainChar();
+			this.GameObjects.push(this.Player);
+
 			this.started = true;
 			Print('System:Scene ' + this.name + " Started !");
 			Time.SetTimeWhenSceneLoaded();
@@ -95,7 +93,28 @@ function SceneForest()
 			// {
 			// 	this.Groups[i].Start();
 			// }
+
+			if (!this.Player.offsetSaved) {
+				// Test game in pause
+				Application.GamePaused = true;
+			}
 		}
+		// Game paused
+		else
+		{
+			ctx.fillStyle = "#11A348";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+			ctx.font = '28px Arial';
+			ctx.fillStyle = 'black';
+			ctx.fillText('Player need to "equilibre" is position for start the game', 800, 50);
+
+			this.Player.Start();
+			if (this.Player.offsetSaved) {
+				Application.GamePaused = false;
+			}
+		}
+
 		if (Application.debugMode) 
 		{
 			Debug.DebugScene();

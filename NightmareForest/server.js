@@ -75,6 +75,11 @@ io.on('connection', function(socket){
 		//console.log(data);
 		socket.broadcast.emit('moving', data);
 	});
+
+	socket.on('GameOver', function(data)
+	{
+		socket.broadcast.emit('reset', data);
+	});
 });
 
 
