@@ -22,6 +22,12 @@ function SceneForest()
 	this.AlphaMask = null;
 	this.started = false;
 
+	//this.Player
+	this.maxEnnemy = 3;
+
+	// SCORE
+	this.score = 0;
+
 	this.WorldSize = new Vector(4096,4096);
 
 	/**
@@ -47,7 +53,6 @@ function SceneForest()
 			this.GameObjects.push(new MainChar());
 			for (var i = 0; i < 3; i++) {
 				this.GameObjects.push(new BasicEnnemy());
-				
 			}
 			// this.GameObjects.push(new BasicEnnemy());
 			this.started = true;
@@ -74,10 +79,18 @@ function SceneForest()
 			ctx.stroke();
 			ctx.closePath();
 
-			 for (var i = 0; i < this.GameObjects.length; i++) 
-			 {
-			 	this.GameObjects[i].Start();
-			 }
+			// Message
+			ctx.font = '28px Arial';
+			ctx.fillStyle = 'black';
+			ctx.fillText('Score : ' + this.score, 200, 50);
+
+			if (this.GameObjects.length < this.maxEnnemy + 1) {
+				this.GameObjects.push(new BasicEnnemy());
+			}
+			for (var i = 0; i < this.GameObjects.length; i++) 
+			{
+				this.GameObjects[i].Start();
+			}
 			// for (var i = 0; i < this.Groups.length; i++) 
 			// {
 			// 	this.Groups[i].Start();

@@ -93,7 +93,8 @@ function ImageLoaded(_imageLoaded)
 		Application.LoadedScene = Scenes["SceneName"];
 	*/
 
-	Application.LoadedScene = Scenes["Forest"];
+	// Application.LoadedScene = Scenes["Forest"];
+	Application.LoadedScene = Scenes["GameOver"];
 }
 /**
  * 

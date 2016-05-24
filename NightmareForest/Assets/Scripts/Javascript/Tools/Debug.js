@@ -51,6 +51,7 @@ var Debug =
 
 	ShowFPS : function()
 	{
+		ctx.font = '15px Arial';
 		ctx.fillStyle = "rgba(122,122,122, 0.4)";
 		ctx.RoundedBox(4, 4, 120, 70, 20);
 	
@@ -167,7 +168,7 @@ var Debug =
 	   			var colH = _go.Physics.Collider.Size.y * _go.Transform.Scale.y;
 	   			var colX = _go.Physics.Collider.Position.x - scaledW*_go.Transform.Pivot.x;
 	   			var colY = _go.Physics.Collider.Position.y - scaledH*_go.Transform.Pivot.y;
-
+	   			
 				ctx.fillRect(colX,colY,colW,colH);
 				ctx.textBaseline = 'top';
 				ctx.fillStyle= "darkgreen";
@@ -195,6 +196,7 @@ var Debug =
 				ctx.arc(x, y, radius, 0, Math.PI * 2);
 				ctx.closePath();
 				ctx.fill();
+				ctx.font = '13px Arial';
 				ctx.textBaseline = 'top';
 				ctx.fillStyle= "darkgreen";
 				ctx.fillText(x + " " + y+ " " + radius, posX, posY+scaledH+20);

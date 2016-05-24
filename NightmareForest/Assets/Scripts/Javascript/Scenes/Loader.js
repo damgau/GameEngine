@@ -40,6 +40,7 @@ function Loader()
 			Time.SetTimeWhenGameBegin();
 			// operation start
 			Scenes["Forest"] = new SceneForest();
+			Scenes["GameOver"] = new SceneGameOver();
 			
 			LoadImages();
 			this.started = true;

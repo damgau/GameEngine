@@ -35,8 +35,6 @@ function MainChar()
 	this.fixedToCamera = true;
 
 	this.MouseOffset = new Vector();
-	// offset saved by the controller
-	this.offsetSaved = 0;
 
 	this.Parent = null;
 	
@@ -48,7 +46,7 @@ function MainChar()
 	this.Transform.Scale = new Vector(1,1);
 	// 															décaler le pivot de sort à ce que le perso est au centre
 	//															(window.innerWidth/2, window.innerHeight/2)
-	this.Transform.Pivot = new Vector(.5,.5);
+	this.Transform.Pivot = new Vector(.5,.6);
 	this.Transform.angle = 0;
 
 	/**
@@ -179,11 +177,7 @@ function MainChar()
 	this.Physics.colliderIsSameSizeAsTransform = false;
 	this.Physics.countHovered = 0;
 
-	this.Physics.Collider = 
-	{
-		Position: new Vector(),
-		Size: new Vector()
-	};
+	this.Physics.Collider = new Circle();
 
 	this.Renderer = 
 	{
@@ -339,10 +333,9 @@ function MainChar()
 				OtherInput.Alpha = -data.alpha ;
 			});
 
-			if (this.Physics.colliderIsSameSizeAsTransform)
-			{
-				this.Physics.Collider = this.Transform;
-			}
+			this.Physics.Collider = new Circle( this.Transform.RelativePosition.x + 50,
+												this.Transform.RelativePosition.y + 100,
+												40);
 
 			this.started = true;
 			Print('System:GameObject ' + this.name + " Started !");
@@ -404,26 +397,36 @@ function MainChar()
 	 * */
 	this.Update = function() 
 	{
-		/*
 		// Left
 		if (Input.KeysDown[37]) {
-			this.Transform.angle -= 10;
+			this.Transform.angle -= 5;
 		}
 		// Right
 		if (Input.KeysDown[39]) {
-			this.Transform.angle += 10;	
+			this.Transform.angle += 5;	
 		}
+		/*
+		this.Transform.angle = OtherInput.Alpha;
 		*/
-		console.log(this.offsetSaved);
-		this.Transform.angle = OtherInput.Alpha - this.offsetSaved;
 
-		// CONDITION : looking ennemy (DotProduct |e| 1 & .8)
+		// CONDITION : looking ennemy (DotProduct |e| 1 & .95)
 		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
 			if (this.onSight(Application.LoadedScene.GameObjects[i])) {
+				Application.LoadedScene.score += 1;
 				Application.LoadedScene.GameObjects.splice(i,1);
 				i--;
 			}
 		}
+
+		// MainChar is dead
+		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
+			if (Application.LoadedScene.GameObjects[i] != this 
+				&& Physics.CheckCollision(this.Physics.Collider, 
+										Application.LoadedScene.GameObjects[i].Physics.Collider)
+				) {
+				Application.LoadedScene = Scenes["GameOver"];
+			}
+		}		
 
 		this.Renderer.Draw();
 		this.PostUpdate();	
