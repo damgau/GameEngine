@@ -69,7 +69,7 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
 
 	console.log("socket connected");
-	
+	console.log(io);
 	socket.on('orientation', function(data)
 	{
 		//console.log(data);
@@ -81,5 +81,3 @@ io.on('connection', function(socket){
 		socket.broadcast.emit('reset', data);
 	});
 });
-
-
