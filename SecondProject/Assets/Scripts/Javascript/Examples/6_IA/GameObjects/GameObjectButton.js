@@ -11,10 +11,10 @@
  * </ul>
  * 
  * 
- * @property {String} name - The name of the object.
- * @property {Boolean} enabled - The active state of the GameObject.
- * @property {Boolean} renderer - The active state of Renderer component
- * @property {Boolean} fixedToCamera -  The active state of Camera if is Fixed
+ * @property {string} name - The name of the object.
+ * @property {boolean} enabled - The active state of the GameObject.
+ * @property {boolean} renderer - The active state of Renderer component
+ * @property {boolean} fixedToCamera -  The active state of Camera if is Fixed
  * @property {Vector} MouseOffset  - Position of mouse
  * @property {Group} Parent - A Group which contain several GameObject
  * @property {Object} Transform  
@@ -26,9 +26,9 @@
  *
  *
  * */
-function MainChar() 
+function GameObjectButton(_text)
 {
-	this.name = "MainChar";
+	this.name = "Button";
 	this.enabled = true;
 	this.started = false;
 	this.rendered = true;
@@ -36,23 +36,20 @@ function MainChar()
 
 	this.MouseOffset = new Vector();
 
-	// "equilibre" player
-	this.offsetSaved = false;
-
-	this.isGameOver = false;
-
 	this.Parent = null;
 	
 	this.Transform = {};
-	this.Transform.RelativePosition = new Vector(window.innerWidth/2, window.innerHeight/2);
+	this.Transform.RelativePosition = new Vector();
 	this.Transform.Position = new Vector();
-	this.Transform.Size = new Vector(101,171);
+	this.Transform.Size = new Vector(100,50);
 	this.Transform.RelativeScale = new Vector(1,1);
 	this.Transform.Scale = new Vector(1,1);
-	// 															décaler le pivot de sort à ce que le perso est au centre
-	//															(window.innerWidth/2, window.innerHeight/2)
-	this.Transform.Pivot = new Vector(.5,.6);
+	this.Transform.Pivot = new Vector(0,0);
 	this.Transform.angle = 0;
+
+	/* BUTTON TEXT */
+	this.text = _text;
+	this.backgroundColor = "grey";
 
 	/**
 	 * @function SetPosition
@@ -66,8 +63,6 @@ function MainChar()
 	 * */
 	this.SetPosition = function(_x, _y)
 	{
-	    if(typeof _x != 'number') PrintErr("Parameter x in SetPosition Go");
-	    if(typeof _y != 'number') PrintErr("Parameter y in SetPosition Go");
 		this.Transform.RelativePosition.x = _x;
 		this.Transform.RelativePosition.y = _y;
 	};
@@ -84,8 +79,6 @@ function MainChar()
 	 * */
 	this.SetPositionCollider = function(_x, _y)
 	{
-	    if(typeof _x != 'number') PrintErr("Parameter x in SetPositionCollider Go");
-	    if(typeof _y != 'number') PrintErr("Parameter y in SetPositionCollider Go");
 		this.Physics.Collider.Position.x = _x;
 		this.Physics.Collider.Position.y = _y;
 	};
@@ -102,8 +95,6 @@ function MainChar()
 	 * */
 	this.SetSize = function(_x, _y)
 	{
-	    if(typeof _x != 'number') PrintErr("Parameter x in SetSize Go");
-	    if(typeof _y != 'number') PrintErr("Parameter y in SetSize Go");
 		this.Transform.Size.x = _x;
 		this.Transform.Size.y = _y;
 	};
@@ -120,8 +111,6 @@ function MainChar()
 	 * */
 	this.SetColliderSize = function(_x, _y)
 	{
-	    if(typeof _x != 'number') PrintErr("Parameter x in SetColliderSize Go");
-	    if(typeof _y != 'number') PrintErr("Parameter y in SetColliderSize Go");
 		this.Physics.Collider.Size.x = _x;
 		this.Physics.Collider.Size.y = _y;
 	};
@@ -138,8 +127,6 @@ function MainChar()
 	 * */
 	this.SetScale = function(_x, _y)
 	{
-	    if(typeof _x != 'number') PrintErr("Parameter x in SetScale Go");
-	    if(typeof _y != 'number') PrintErr("Parameter y in SetScale Go");
 		this.Transform.RelativeScale.x = _x;
 		this.Transform.RelativeScale.y = _y;
 	};
@@ -156,8 +143,6 @@ function MainChar()
 	 * */
 	this.SetPivot = function(_x, _y)
 	{
-	    if(typeof _x != 'number') PrintErr("Parameter x in SetPivot Go");
-	    if(typeof _y != 'number') PrintErr("Parameter y in SetPivot Go");
 		this.Transform.Pivot.x = _x;
 		this.Transform.Pivot.y = _y;
 	};
@@ -177,12 +162,16 @@ function MainChar()
 	 * */
 	this.Physics = {};
 	this.Physics.enabled = true;
-	this.Physics.clickable = false;
+	this.Physics.clickable = true;
 	this.Physics.dragAndDroppable = false;
-	this.Physics.colliderIsSameSizeAsTransform = false;
+	this.Physics.colliderIsSameSizeAsTransform = true;
 	this.Physics.countHovered = 0;
 
-	this.Physics.Collider = new Circle();
+	this.Physics.Collider = 
+	{
+		Position: new Vector(),
+		Size: new Vector()
+	};
 
 	this.Renderer = 
 	{
@@ -191,8 +180,8 @@ function MainChar()
 		That: this.Transform,
 		Material: 
 		{
-			Source: Images["Boy"],
-			SizeFrame: new Vector(101,171),
+			Source: "",
+			SizeFrame: new Vector(),
 			CurrentFrame: new Vector(),
 		},
 		animationCount:0,
@@ -274,8 +263,8 @@ function MainChar()
 	 * @function SetSpriteSheet
 	 * @memberof GameObjects/GameObjects
 	 *
-	 * @param {String} _img - the source image of sprite sheet
-	 * @param {Vector} _sizeFrame - the size frame of the sprite
+	 * @param {Image} _img - the source image of sprite sheet
+	 * @param {vector} _sizeFrame - the size frame of the sprite
 	 * @param {Number} _animationLength - how many frame has the sprite sheet
 	 *
 	 * @description
@@ -284,9 +273,6 @@ function MainChar()
 	 * */
 	this.SetSpriteSheet = function(_img, _sizeFrame, _animationLength) 
 	{
-	    if(typeof _img != 'string') PrintErr("Parameter img in SetSpriteSheet");
-		if(!(_sizeFrame instanceof(Vector))) PrintErr("Parameter sizeFrame in SetSpriteSheet");
-	    if(typeof _animationLength != 'number') PrintErr("Parameter animationLength in SetSpriteSheet");
 		this.Renderer.isSpriteSheet = true;
 		this.Animation.totalAnimationLength = _animationLength || 0.5;
 		this.Renderer.Material.SizeFrame = _sizeFrame;
@@ -328,21 +314,11 @@ function MainChar()
 	{
 		if (!this.started) {
 			// operation start
-			var url = 'http://10.10.7.55:8080';
-			this.socket = io.connect(url);
-			// Don't need to be in "Update" beacause --> addEventListener
-			this.socket.on('moving', function (data)
+			this.Transform.Position = this.Transform.RelativePosition;
+			if (this.Physics.colliderIsSameSizeAsTransform) 
 			{
-				if (Application.LoadedScene == Scenes["Forest"]) {
-				//													  Test with offset and others players
-					Application.LoadedScene.Player.offsetSaved = data.initedOffset;
-				}
-				OtherInput.Alpha = -data.alpha ;
-			});
-
-			this.Physics.Collider = new Circle( this.Transform.RelativePosition.x + 50,
-												this.Transform.RelativePosition.y + 100,
-												40);
+				this.Physics.Collider = this.Transform;
+			}
 
 			this.started = true;
 			Print('System:GameObject ' + this.name + " Started !");
@@ -404,42 +380,18 @@ function MainChar()
 	 * */
 	this.Update = function() 
 	{
-		/*
-		// Left
-		if (Input.KeysDown[37]) {
-			this.Transform.angle -= 5;
+		/* DISPLAY BUTTON */
+		if (this.Physics.clickable) {
+			ctx.fillStyle = this.backgroundColor;
 		}
-		// Right
-		if (Input.KeysDown[39]) {
-			this.Transform.angle += 5;	
-		}
-		*/
-		this.Transform.angle = OtherInput.Alpha;
-
-		// CONDITION : looking ennemy (DotProduct |e| 1 & .95)
-		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
-			if (this.onSight(Application.LoadedScene.GameObjects[i])) {
-				Application.LoadedScene.score += 1;
-				Application.LoadedScene.GameObjects.splice(i,1);
-				i--;
-			}
-		}
-
-		// MainChar is dead
-		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
-			if (Application.LoadedScene.GameObjects[i] != this 
-				&& Physics.CheckCollision(this.Physics.Collider, 
-										Application.LoadedScene.GameObjects[i].Physics.Collider)
-				) {
-				this.isGameOver = true;
-				this.socket.emit('GameOver', this.isGameOver);
-				Application.LoadedScene = Scenes["GameOver"];
-			}
-		}
-
-		//console.log(Application.LoadedScene.Player.offsetSaved);	
-
-		this.Renderer.Draw();
+		else ctx.fillStyle = "lightgrey";
+		
+		ctx.fillRect(this.Transform.RelativePosition.x, this.Transform.RelativePosition.y, this.Transform.Size.x, this.Transform.Size.y)
+		/* DISPLAY TEXT */
+		ctx.fillStyle = "black";		
+		ctx.fillText(this.text, 
+					this.Transform.RelativePosition.x + (this.Transform.Size.x - ctx.measureText(this.text).width) / 2,
+					this.Transform.RelativePosition.y + this.Transform.Size.y/2 + 5 );
 		this.PostUpdate();	
 	};
 	/**
@@ -467,7 +419,7 @@ function MainChar()
 	 * */
 	this.GUI = function() 
 	{
-
+		
 	}
 
 	/**
@@ -479,6 +431,7 @@ function MainChar()
 	 * */
 	this.onHover = function() 
 	{
+		this.backgroundColor = "rgb(157,172,203)";
 		this.Physics.countHovered ++;	
 	}
 
@@ -505,19 +458,8 @@ function MainChar()
 	 * */
 	this.onUnHovered = function() 
 	{
+		this.backgroundColor = "grey";
 		this.Physics.countHovered = 0;
-	}
-
-	this.onSight = function(_go)
-	{
-		var norCharPos = this.Transform.Position.FromAngle(Math.DegreeToRadian(this.Transform.angle-90)).Normalize();
-
-		var norGOPos = _go.Transform.Position.FromAngle(Math.DegreeToRadian(_go.Transform.angle)).Normalize();
-
-		var dotProd = Math.DotProduct(norCharPos, norGOPos);
-		// > .95 angle de vue pour tuer un ennemi
-		if (dotProd > .95) return true;
-		else return false;
 	}
 
 	this.Awake();

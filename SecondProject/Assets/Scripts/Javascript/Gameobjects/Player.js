@@ -26,9 +26,9 @@
  *
  *
  * */
-function MainChar() 
+function Player() 
 {
-	this.name = "MainChar";
+	this.name = "Player";
 	this.enabled = true;
 	this.started = false;
 	this.rendered = true;
@@ -36,22 +36,17 @@ function MainChar()
 
 	this.MouseOffset = new Vector();
 
-	// "equilibre" player
-	this.offsetSaved = false;
-
-	this.isGameOver = false;
-
 	this.Parent = null;
+
+	this.grid = Application.LoadedScene.grid;
 	
 	this.Transform = {};
-	this.Transform.RelativePosition = new Vector(window.innerWidth/2, window.innerHeight/2);
+	this.Transform.RelativePosition = new Vector();
 	this.Transform.Position = new Vector();
-	this.Transform.Size = new Vector(101,171);
+	this.Transform.Size = new Vector();
 	this.Transform.RelativeScale = new Vector(1,1);
 	this.Transform.Scale = new Vector(1,1);
-	// 															décaler le pivot de sort à ce que le perso est au centre
-	//															(window.innerWidth/2, window.innerHeight/2)
-	this.Transform.Pivot = new Vector(.5,.6);
+	this.Transform.Pivot = new Vector(0,0);
 	this.Transform.angle = 0;
 
 	/**
@@ -182,7 +177,11 @@ function MainChar()
 	this.Physics.colliderIsSameSizeAsTransform = false;
 	this.Physics.countHovered = 0;
 
-	this.Physics.Collider = new Circle();
+	this.Physics.Collider = 
+	{
+		Position: new Vector(),
+		Size: new Vector()
+	};
 
 	this.Renderer = 
 	{
@@ -191,8 +190,8 @@ function MainChar()
 		That: this.Transform,
 		Material: 
 		{
-			Source: Images["Boy"],
-			SizeFrame: new Vector(101,171),
+			Source: "",
+			SizeFrame: new Vector(),
 			CurrentFrame: new Vector(),
 		},
 		animationCount:0,
@@ -328,21 +327,15 @@ function MainChar()
 	{
 		if (!this.started) {
 			// operation start
-			var url = 'http://10.10.7.55:8080';
-			this.socket = io.connect(url);
-			// Don't need to be in "Update" beacause --> addEventListener
-			this.socket.on('moving', function (data)
-			{
-				if (Application.LoadedScene == Scenes["Forest"]) {
-				//													  Test with offset and others players
-					Application.LoadedScene.Player.offsetSaved = data.initedOffset;
-				}
-				OtherInput.Alpha = -data.alpha ;
-			});
+			this.Renderer.Material.Source = Images["pig"];
+			this.SetPosition(this.grid.caseLength/2, this.grid.caseLength/2);
+			this.SetSize(this.grid.caseLength, this.grid.caseLength);
+			this.SetPivot(.5,.5);
 
-			this.Physics.Collider = new Circle( this.Transform.RelativePosition.x + 50,
-												this.Transform.RelativePosition.y + 100,
-												40);
+			if (this.Physics.colliderIsSameSizeAsTransform) 
+			{
+				this.Physics.Collider = this.Transform;
+			}
 
 			this.started = true;
 			Print('System:GameObject ' + this.name + " Started !");
@@ -404,41 +397,6 @@ function MainChar()
 	 * */
 	this.Update = function() 
 	{
-		/*
-		// Left
-		if (Input.KeysDown[37]) {
-			this.Transform.angle -= 5;
-		}
-		// Right
-		if (Input.KeysDown[39]) {
-			this.Transform.angle += 5;	
-		}
-		*/
-		this.Transform.angle = OtherInput.Alpha;
-
-		// CONDITION : looking ennemy (DotProduct |e| 1 & .95)
-		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
-			if (this.onSight(Application.LoadedScene.GameObjects[i])) {
-				Application.LoadedScene.score += 1;
-				Application.LoadedScene.GameObjects.splice(i,1);
-				i--;
-			}
-		}
-
-		// MainChar is dead
-		for (var i = 0; i < Application.LoadedScene.GameObjects.length; i++) {
-			if (Application.LoadedScene.GameObjects[i] != this 
-				&& Physics.CheckCollision(this.Physics.Collider, 
-										Application.LoadedScene.GameObjects[i].Physics.Collider)
-				) {
-				this.isGameOver = true;
-				this.socket.emit('GameOver', this.isGameOver);
-				Application.LoadedScene = Scenes["GameOver"];
-			}
-		}
-
-		//console.log(Application.LoadedScene.Player.offsetSaved);	
-
 		this.Renderer.Draw();
 		this.PostUpdate();	
 	};
@@ -467,7 +425,7 @@ function MainChar()
 	 * */
 	this.GUI = function() 
 	{
-
+		
 	}
 
 	/**
@@ -506,18 +464,6 @@ function MainChar()
 	this.onUnHovered = function() 
 	{
 		this.Physics.countHovered = 0;
-	}
-
-	this.onSight = function(_go)
-	{
-		var norCharPos = this.Transform.Position.FromAngle(Math.DegreeToRadian(this.Transform.angle-90)).Normalize();
-
-		var norGOPos = _go.Transform.Position.FromAngle(Math.DegreeToRadian(_go.Transform.angle)).Normalize();
-
-		var dotProd = Math.DotProduct(norCharPos, norGOPos);
-		// > .95 angle de vue pour tuer un ennemi
-		if (dotProd > .95) return true;
-		else return false;
 	}
 
 	this.Awake();
