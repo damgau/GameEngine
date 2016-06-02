@@ -156,41 +156,6 @@ function GameObject()
 			ctx.restore();
 		}
 	};
-
-	/**
-	 * @function SetSpriteSheet
-	 * @memberof GameObjects/GameObjects
-	 *
-	 * @param {String} _img - the source image of sprite sheet
-	 * @param {Vector} _sizeFrame - the size frame of the sprite
-	 * @param {Number} _animationLength - how many frame has the sprite sheet
-	 *
-	 * @description
-	 *
-	 * Set the sprite sheet source image, the size of one frame and the number of frame the sprite sheet has.
-	 * */
-	this.SetSpriteSheet = function(_img, _sizeFrame, _animationLength) 
-	{
-	    if(typeof _img != 'string') PrintErr("Parameter img in SetSpriteSheet");
-		if(!(_sizeFrame instanceof(Vector))) PrintErr("Parameter sizeFrame in SetSpriteSheet");
-	    if(typeof _animationLength != 'number') PrintErr("Parameter animationLength in SetSpriteSheet");
-		this.Renderer.isSpriteSheet = true;
-		this.Animation.totalAnimationLength = _animationLength || 0.5;
-		this.Renderer.Material.SizeFrame = _sizeFrame;
- 		this.Renderer.Material.Source = _img;
- 		this.Renderer.Material.CurrentFrame = new Vector(0,0);
- 		for (var i = 0; i < _img.height; i += this.Renderer.Material.SizeFrame.y) 
- 		{
- 			var array = [];
- 			for (var j = 0; j < _img.width; j += this.Renderer.Material.SizeFrame.x) 
- 			{
- 				array.push(new Vector(j, i));
- 			}
- 			this.Renderer.Animation.Animations.push(array);
- 		}
- 		this.Renderer.Animation.Current = this.Renderer.Animation.Animations[0];
-	}
-
 	/**
 	 * @function Awake
 	 * @memberof GameObjects/GameObjects
@@ -454,6 +419,39 @@ function GameObject()
 		this.Transform.Pivot.x = _x;
 		this.Transform.Pivot.y = _y;
 	};
+	/**
+	 * @function SetSpriteSheet
+	 * @memberof GameObjects/GameObjects
+	 *
+	 * @param {String} _img - the source image of sprite sheet
+	 * @param {Vector} _sizeFrame - the size frame of the sprite
+	 * @param {Number} _animationLength - how many frame has the sprite sheet
+	 *
+	 * @description
+	 *
+	 * Set the sprite sheet source image, the size of one frame and the number of frame the sprite sheet has.
+	 * */
+	this.SetSpriteSheet = function(_img, _sizeFrame, _animationLength) 
+	{
+	    if(typeof _img != 'string') PrintErr("Parameter img in SetSpriteSheet");
+		if(!(_sizeFrame instanceof(Vector))) PrintErr("Parameter sizeFrame in SetSpriteSheet");
+	    if(typeof _animationLength != 'number') PrintErr("Parameter animationLength in SetSpriteSheet");
+		this.Renderer.isSpriteSheet = true;
+		this.Animation.totalAnimationLength = _animationLength || 0.5;
+		this.Renderer.Material.SizeFrame = _sizeFrame;
+ 		this.Renderer.Material.Source = _img;
+ 		this.Renderer.Material.CurrentFrame = new Vector(0,0);
+ 		for (var i = 0; i < _img.height; i += this.Renderer.Material.SizeFrame.y) 
+ 		{
+ 			var array = [];
+ 			for (var j = 0; j < _img.width; j += this.Renderer.Material.SizeFrame.x) 
+ 			{
+ 				array.push(new Vector(j, i));
+ 			}
+ 			this.Renderer.Animation.Animations.push(array);
+ 		}
+ 		this.Renderer.Animation.Current = this.Renderer.Animation.Animations[0];
+	}
 
 	this.Awake();
 }
